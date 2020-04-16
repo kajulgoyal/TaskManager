@@ -3,6 +3,21 @@ const Note = require('../../db').Note
 
 const route = require('express').Router()
 
+function getDateFormat(objdate) {
+    var date = new Date(Date.parse(objdate))
+    var dd = date.getDate();
+    var mm = date.getMonth()+1; 
+    var yyyy = date.getFullYear(); 
+    if(dd<10) {
+        dd = '0'+dd
+    } 
+    if(mm<10) {
+        mm = '0'+mm
+    } 
+    date = mm + '-' + dd + '-' + yyyy;
+    return date
+  }
+
 route.get('/', (req, res) => {
 
     Task.findAll()
@@ -32,12 +47,11 @@ route.get('/:id', (req, res) => {
 
 
 route.post('/', (req, res) => {
-    date = Date.parse(req.body.due_date)
-    f_date = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()
+    date = getDateFormat(req.body.due_date)
     Task.create({
         title : req.body.title,
         description : req.body.description,
-        due_date : f_date,
+        due_date : date,
         status : req.body.status,
         priority : req.body.priority
     }).then((task) => {
@@ -50,10 +64,9 @@ route.post('/', (req, res) => {
 })
 
 route.patch('/:id', (req, res) => {
-    date = Date.parse(req.body.due_date)
-    f_date = date.getDate()+"-"+date.getMonth()+"-"+date.getFullYear()
+    date = getDateFormat(req.body.due_date)
     Task.update(
-        { due_date: f_date},
+        { due_date: date},
         { where: { id: req.params.id }
      }).then((task) => {
         res.status(201).send(task)
@@ -78,7 +91,7 @@ route.get('/:id/notes', (req, res) => {
             res.status(500).send({
                 error: "Could not retreive notes"
             })
-        })
+          })
 })
 
 route.post('/:id/notes', (req, res) => {

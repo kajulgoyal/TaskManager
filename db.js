@@ -25,10 +25,11 @@ const Task = db.define('tasks', {
         allowNull: true,
     },
     due_date: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
     },
     status: {
         type: Sequelize.STRING,
+        defaultValue : "incomplete",
     },
     priority: {
         type: Sequelize.STRING,
