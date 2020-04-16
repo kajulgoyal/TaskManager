@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Web application to manage tasks alongwith notes",
   "main": "index.js",
-  "scripts": {
-    "start": "node server.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kajulgoyal/TaskManager.git"
